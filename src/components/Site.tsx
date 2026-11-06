@@ -110,7 +110,8 @@ export function Rodape({ home = false }: { home?: boolean }) {
         </p>
         <p>
           © {new Date().getFullYear()} {MARCA} · Emojis animados:{" "}
-          <a href="https://googlefonts.github.io/noto-emoji-animation/">Google Noto Emoji</a> (CC BY 4.0)
+          <a href="https://googlefonts.github.io/noto-emoji-animation/">Google Noto Emoji</a> (CC BY 4.0) · Fotos:{" "}
+          <a href="https://unsplash.com">Unsplash</a> · Vídeos: <a href="https://mixkit.co">Mixkit</a>
         </p>
       </div>
     </footer>

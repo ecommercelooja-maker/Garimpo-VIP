@@ -19,8 +19,8 @@ const nextConfig = {
         ],
       },
       {
-        // Emojis e fotos de exemplo mudam raramente: cache longo no navegador e na CDN.
-        source: "/:dir(anim|ofertas)/:file*",
+        // Vídeos, fotos e emojis mudam raramente: cache longo no navegador e na CDN.
+        source: "/:dir(video|fotos|anim|ofertas)/:file*",
         headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
       },
     ];

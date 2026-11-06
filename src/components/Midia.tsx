@@ -5,6 +5,34 @@ export function Anim({ n, t = 40, className = "" }: { n: string; t?: number; cla
   return <img className={`anim ${className}`} src={`/anim/${n}.webp`} alt="" aria-hidden="true" width={t} height={t} loading="lazy" />;
 }
 
+// Foto responsiva (Unsplash, em /public/fotos): o navegador escolhe entre 640 e 1280px.
+export function Foto({
+  nome,
+  alt = "",
+  sizes = "(min-width: 900px) 50vw, 100vw",
+  className,
+  prioridade = false,
+}: {
+  nome: string;
+  alt?: string;
+  sizes?: string;
+  className?: string;
+  prioridade?: boolean;
+}) {
+  const base = `/fotos/${nome}`;
+  return (
+    <img
+      className={className}
+      src={`${base}-1280.webp`}
+      srcSet={`${base}-640.webp 640w, ${base}-1280.webp 1280w`}
+      sizes={sizes}
+      alt={alt}
+      loading={prioridade ? "eager" : "lazy"}
+      decoding="async"
+    />
+  );
+}
+
 /* Brilhos dourados espalhados (decorativos). Posições fixas para o HTML do servidor e do navegador serem iguais. */
 export function Brilhos({ n = 14 }: { n?: number }) {
   return (

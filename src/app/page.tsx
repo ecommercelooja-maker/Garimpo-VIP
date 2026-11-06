@@ -1,7 +1,7 @@
 import { CelularGrupo, GradeAchados } from "@/components/Achados";
-import { Indicar } from "@/components/Cliente";
+import { Indicar, VideoLoop } from "@/components/Cliente";
 import { Gema } from "@/components/Marca";
-import { Anim, Brilhos } from "@/components/Midia";
+import { Anim, Brilhos, Foto } from "@/components/Midia";
 import { Botoes, Cabecalho, Globais, Rodape } from "@/components/Site";
 import { LOJAS, LOJAS_TEXTO, TELEGRAM, TEXTO_AFILIADO } from "@/config";
 
@@ -14,10 +14,24 @@ const PENEIRA = [
 ];
 
 const CATEGORIAS = [
-  { emoji: "caixa", titulo: "Casa e cozinha", texto: "Organizadores, utensílios e aquele item que resolve a rotina." },
-  { emoji: "foguete", titulo: "Eletrônicos", texto: "Fones, carregadores, câmeras e gadgets com desconto conferido." },
-  { emoji: "apaixonado", titulo: "Beleza e cuidados", texto: "Skincare, cabelo e perfumaria quando o preço cai de verdade." },
-  { emoji: "estrelas", titulo: "Utilidades", texto: "Achadinhos baratos e úteis que ninguém sabia que precisava." },
+  { foto: "sala", alt: "Sala de estar decorada com sofá e plantas", emoji: "casa", titulo: "Casa e cozinha", texto: "Organizadores, utensílios e aquele item que resolve a rotina." },
+  { foto: "fone", alt: "Fone de ouvido sobre fundo amarelo", emoji: "relampago", titulo: "Eletrônicos", texto: "Fones, carregadores, câmeras e gadgets com desconto conferido." },
+  { foto: "serum", alt: "Frasco de sérum com conta-gotas", emoji: "coracao-brilho", titulo: "Beleza e cuidados", texto: "Skincare, cabelo e perfumaria quando o preço cai de verdade." },
+  { foto: "garrafa", alt: "Garrafa térmica verde", emoji: "lampada", titulo: "Utilidades", texto: "Achadinhos baratos e úteis que ninguém sabia que precisava." },
+];
+
+// Faixa de fotos em movimento: [foto, legenda, emoji, texto alternativo]
+const GALERIA: [string, string, string, string][] = [
+  ["sofa", "Casa e cozinha", "casa", "Sofá verde em uma sala clara"],
+  ["fone", "Eletrônicos", "relampago", "Fone de ouvido sobre fundo amarelo"],
+  ["maquiagem", "Beleza e cuidados", "coracao-brilho", "Pincéis e itens de maquiagem"],
+  ["garrafa", "Utilidades", "lampada", "Garrafa térmica verde"],
+  ["cozinhando", "Casa e cozinha", "festejando", "Casal cozinhando junto"],
+  ["relogios", "Eletrônicos", "relampago", "Dois relógios inteligentes brancos"],
+  ["serum", "Beleza e cuidados", "brilho", "Frasco de sérum com conta-gotas"],
+  ["poltrona", "Casa e cozinha", "casa", "Poltrona amarela em uma sala"],
+  ["bolsa", "Utilidades", "estrelas", "Bolsa vermelha"],
+  ["cozinha", "Casa e cozinha", "joinha", "Cozinha organizada"],
 ];
 
 const VIP: [string, string, string][] = [
@@ -65,6 +79,9 @@ export default function Home() {
 
       {/* Topo: chamada + celular com mensagens chegando */}
       <header className="hero" data-origem="hero">
+        <div className="hero-fundo" aria-hidden="true">
+          <VideoLoop nome="hero" className="hero-video" />
+        </div>
         <Brilhos n={18} />
         <div className="wrap hero-grade">
           <div className="hero-texto">
@@ -94,7 +111,17 @@ export default function Home() {
             <span className="hero-gema hero-gema-2" aria-hidden="true">
               <Gema />
             </span>
+            <figure className="hero-foto">
+              <Foto nome="mulher-sacolas" alt="Mulher sorrindo com sacolas de compras" sizes="(min-width: 900px) 300px, 62vw" prioridade />
+            </figure>
             <CelularGrupo />
+            <span className="chip chip-1" aria-hidden="true">
+              <Anim n="fogo" t={26} /> Desconto conferido
+            </span>
+            <span className="chip chip-2" aria-hidden="true">
+              <Anim n="check" t={24} /> Cupom testado
+            </span>
+            <Anim n="brilho" t={56} className="hero-brilho" />
           </div>
         </div>
       </header>
@@ -113,6 +140,21 @@ export default function Home() {
           ))}
         </div>
         <p className="sr">Lojas onde garimpamos achadinhos: {LOJAS_TEXTO}.</p>
+      </section>
+
+      {/* Galeria de fotos em movimento (decorativa) */}
+      <section className="galeria" aria-label="Achadinhos de casa, cozinha, beleza e eletrônicos">
+        <div className="galeria-linha">
+          {[...GALERIA, ...GALERIA].map(([foto, legenda, emoji, alt], i) => (
+            // A segunda metade repete a primeira só para a rolagem contínua: fica oculta para leitores de tela.
+            <figure key={i} className="galeria-item" aria-hidden={i >= GALERIA.length || undefined}>
+              <Foto nome={foto} alt={alt} sizes="(min-width: 900px) 300px, 62vw" />
+              <figcaption>
+                <Anim n={emoji} t={22} /> {legenda}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
       </section>
 
       <main>
@@ -137,6 +179,17 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Faixa de vídeo: do garimpo até a sua casa */}
+        <section className="cinema" aria-label="Do garimpo até a sua casa">
+          <VideoLoop nome="unboxing" className="cinema-video" />
+          <div className="cinema-veu" aria-hidden="true" />
+          <div className="wrap cinema-texto" aria-hidden="true">
+            <Anim n="presente" t={64} />
+            <span>Do garimpo</span>
+            <em>até a sua casa.</em>
+          </div>
+        </section>
+
         {/* Categorias */}
         <section className="secao secao-creme">
           <div className="wrap">
@@ -145,7 +198,10 @@ export default function Home() {
             <div className="categorias">
               {CATEGORIAS.map((c, i) => (
                 <article key={c.titulo} className="categoria rv" style={{ transitionDelay: `${i * 80}ms` }}>
-                  <Anim n={c.emoji} t={52} />
+                  <div className="categoria-foto">
+                    <Foto nome={c.foto} alt={c.alt} sizes="(min-width: 1000px) 280px, (min-width: 640px) 45vw, 92vw" />
+                    <Anim n={c.emoji} t={52} className="categoria-anim" />
+                  </div>
                   <h3>{c.titulo}</h3>
                   <p>{c.texto}</p>
                 </article>
@@ -175,6 +231,7 @@ export default function Home() {
         <section className="secao secao-escura vip" id="vip">
           <Brilhos n={12} />
           <div className="wrap">
+            <div className="vip-cabeca">
             <div className="vip-topo">
               <span className="vip-gema rv" aria-hidden="true">
                 <Gema />
@@ -186,6 +243,13 @@ export default function Home() {
                   <br />
                   <em>não de preço.</em>
                 </h2>
+              </div>
+            </div>
+              <div className="vip-midia rv">
+                <VideoLoop nome="arara" rotulo="Mulher escolhendo roupas em uma arara" />
+                <span className="vip-selo">
+                  <Anim n="coroa" t={30} /> Seleção VIP
+                </span>
               </div>
             </div>
             <div className="vip-grade">
@@ -209,6 +273,16 @@ export default function Home() {
               <p className="mantemos-aviso">
                 <Anim n="cem" t={32} /> {TEXTO_AFILIADO}
               </p>
+              <div className="mantemos-foto">
+                <Foto nome="compra-cartao" alt="Pessoa fazendo uma compra online com cartão no notebook" sizes="(min-width: 900px) 460px, 92vw" />
+                <span className="mantemos-selo">
+                  <Anim n="joinha" t={36} />
+                  <span>
+                    <b>Comissão da loja</b>
+                    <small>o seu preço não muda</small>
+                  </span>
+                </span>
+              </div>
             </div>
             <ol className="mantemos-lista">
               {MANTEMOS.map(([t, p], i) => (
@@ -227,6 +301,9 @@ export default function Home() {
             <div>
               <p className="sobretitulo esquerda">Combinado</p>
               <h2 className="titulo esquerda">Nosso compromisso com você</h2>
+              <div className="compromisso-midia">
+                <VideoLoop nome="entrega" rotulo="Pessoa recebendo uma encomenda" />
+              </div>
             </div>
             <ul>
               {COMPROMISSOS.map(([b, t]) => (
@@ -243,7 +320,12 @@ export default function Home() {
 
         {/* Indique */}
         <section className="secao secao-creme" id="indique">
-          <div className="wrap indique rv">
+          <div className="wrap indique-grade">
+          <div className="indique-midia rv">
+            <VideoLoop nome="presente" rotulo="Pessoa entregando um presente a outra" />
+            <Anim n="coracao-brilho" t={64} className="indique-coracao" />
+          </div>
+          <div className="indique rv">
             <Anim n="presente" t={72} className="indique-anim" />
             <p className="sobretitulo">Divida o tesouro</p>
             <h2 className="titulo">Conhece alguém que ama um achadinho?</h2>
@@ -252,6 +334,7 @@ export default function Home() {
               menos.
             </p>
             <Indicar />
+          </div>
           </div>
         </section>
 
@@ -273,6 +356,8 @@ export default function Home() {
 
         {/* Fechamento */}
         <section className="fechamento" data-origem="fechamento">
+          <VideoLoop nome="amigas" className="fechamento-video" />
+          <div className="fechamento-veu" aria-hidden="true" />
           <Brilhos n={22} />
           <div className="wrap fechamento-conteudo">
             <span className="fechamento-gema" aria-hidden="true">
