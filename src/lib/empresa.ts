@@ -1,8 +1,8 @@
 // Dados da empresa responsável pelo site. Único lugar para alterar: rodapé e páginas legais leem daqui.
-// Nome fantasia: TEC CONNECT. TODO: endereço do cartão CNPJ antes de anunciar no Google Ads.
+// Nome fantasia: GOMES ANDRADE GROUP. TODO: endereço do cartão CNPJ antes de anunciar no Google Ads.
 
-export const RAZAO_SOCIAL = "TEC CONNECT CONECTIVIDADE URBANA LTDA";
-export const CNPJ = "50.429.871/0001-01";
+export const RAZAO_SOCIAL = "GOMES ANDRADE EMPREENDIMENTOS LIMITADA";
+export const CNPJ = "44.682.759/0001-77";
 // Endereço de registro (cartão CNPJ). Vazio: o endereço some do rodapé e das páginas legais.
 export const ENDERECO = "";
 // ", endereço" pronto para colar depois do CNPJ (vazio quando não há endereço).
